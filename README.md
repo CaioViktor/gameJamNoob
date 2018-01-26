@@ -1,2 +1,2 @@
 # gameJamNoob
-<a href=" https://caioviktor.github.io/gameJamNoob/">git pages</a>
+<a href="https://caioviktor.github.io/gameJamNoob/">git pages</a>
