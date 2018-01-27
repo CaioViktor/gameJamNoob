@@ -15,7 +15,6 @@ class Celula{
 
 	setCano(tipo){
 		var cano = null;
-		console.log("entrou pelo cano");
 		if(tipo == "CanoHorizontal"){
 			cano = new CanoHorizontal(this,this.x+","+this.y);
 		}
@@ -50,7 +49,6 @@ class Celula{
 		this.cano = cano;
 		jQuery("<img/>",{'src':cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.celulaTabela);
 		this.cano.alocarVizinhos();
-		// console.log(this);
 	}
 
 }
@@ -158,11 +156,10 @@ class Cano{
 
 
 	alocarVizinhos(){
-		console.log(this);
 		for(let possivelVizinho of this.possiveisVizinhos){
-			if(possivelVizinho.cano != null && possivelVizinho.cano.possiveisVizinhos.has(this)){
-				this.visinhos.add(possivelVizinho);
-				possivelVizinho.visinhos.add(this);
+			if(possivelVizinho.cano != null && possivelVizinho.cano.possiveisVizinhos.has(this.celula)){
+				this.celula.visinhos.add(possivelVizinho);
+				possivelVizinho.visinhos.add(this.celula);
 			}
 		}
 	}
