@@ -17,7 +17,10 @@ class Celula{
 class Grade{
 	constructor(tamanho){
 		this.tamanho = tamanho;
+		this.origem = null;
+		this.fim = null;
 		this.celulas = new Array(tamanho);
+
 		for(linha = 0 ; linha < tamanho ; linha++){
 			this.celulas[linha] = new Array(tamanho);
 			for(coluna = 0 ; coluna < tamanho ; coluna++){
@@ -25,9 +28,21 @@ class Grade{
 			}
 		}
 	}
+
 	getCelula(x,y){
 		return this.celulas[x][y];
 	}
+
+	setOrigem(x,y){
+		this.celulas[x][y].cano = new CanoOrigem(celulas[x][y],"origem1");
+		this.origem = this.celulas[x][y];
+	}
+
+	setFim(x,y){
+		this.celulas[x][y].cano = new CanoFim(celulas[x][y],"fim1");
+		this.fim = this.celulas[x][y];
+	}
+	
 }
 
 class Cano{
@@ -62,6 +77,47 @@ class CanoQuebrado extends Cano{
 	}
 }
 
+class PontoEspecial extends Cano{
+	constructor(celula,id){
+		super(celula,id);
+	}
+	calcularPossiveisVizinhos(){
+		this.possiveisVizinhos = new Set();
+		var x = this.celula.x;
+		var y = this.celula.y;
+		var tamanho= this.celula.grade.tamanho;
+		var grade = this.celula.grade;
+		
+		if((x - 1) >= 0)
+			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
+		if((x + 1) <= tamanho)
+			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
+		if((y - 1) >= 0)
+			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
+		if((y + 1) <= tamanho)
+			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
+		if((x-1) >= 0 && (y-1) >= 0 )
+			this.possiveisVizinhos.add(grade.getCelula(x-1,y-1));		
+		if((x+1) <= tamanho && (y+1) <= tamanho )
+			this.possiveisVizinhos.add(grade.getCelula(x+1,y+1));
+		if( (x+1) <= tamanho && (y-1) >= 0 )
+			this.possiveisVizinhos.add(grade.getCelula(x+1,y-1));		
+		if((x-1) >= 0 && (y+1) <= tamanho )
+			this.possiveisVizinhos.add(grade.getCelula(x-1,y+1));	
+	}
+}
+class CanoOrigem extends PontoEspecial{
+	constructor(celula,id){
+		super(celula,id);
+		this.this.srcImagem = "static/images/origem.png";
+	}
+}
+class CanoFim extends PontoEspecial{
+	constructor(celula,id){
+		super(celula,id);
+		this.this.srcImagem = "static/images/fim.png";
+	}
+}
 class CanoHorizontal extends Cano{
 	constructor(celula,id){
 		super(celula,id);
