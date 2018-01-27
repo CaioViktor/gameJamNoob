@@ -6,13 +6,40 @@
 			
 		</title>
 		<link rel="stylesheet" type="text/css"  href="static/style/style.css"/>
-		<script type="text/javascript" src="static/javascript/script.js">
-		</script>
+		<script type="text/javascript" src="static/javascript/jQuery.js"></script>
+		<script type="text/javascript" src="static/javascript/estruturas.js"></script>
 		<script type="text/javascript" href="static/javascript/konva.min.js"></script>
+		<script type="text/javascript" src="static/javascript/game.js"></script>
 	</head>
-	<body>
-		<canvas id="game" width="200" height="100">
-			
-		</canvas>
+	<body onload="init();">
+		<center>
+			<table id="gradeGame"></table>
+			<div id="canos">
+				<div id="CanoHorizontal" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoVertical" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoEsquerdaCima" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoEsquerdaBaixo" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoDireitaCima" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoDireitaBaixo" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoDiagonalSupEsInfDi" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+				<div id="CanoDiagonalSupDiInfEs" class="tipoCano">
+					<div class="contador">99</div>
+				</div>
+			</div>
+		</center>
 	</body>
 </html>

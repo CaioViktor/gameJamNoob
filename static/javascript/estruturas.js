@@ -1,9 +1,10 @@
 class Celula{
-	constructor(x,y,grade){
+	constructor(x,y,grade,celulaTabela){
 		this.x = x;
 		this.y = y;
 		this.grade = grade;
 		this.cano = null;
+		this.celulaTabela = celulaTabela;
 		this.visinhos = new Set();
 
 		//variáveis do algoritmo de busca
@@ -15,16 +16,26 @@ class Celula{
 }
 
 class Grade{
-	constructor(tamanho){
+	constructor(tamanho,tabela){
 		this.tamanho = tamanho;
 		this.origem = null;
 		this.fim = null;
+		this.tabela = tabela;
 		this.celulas = new Array(tamanho);
 
-		for(linha = 0 ; linha < tamanho ; linha++){
+		for(var linha = 0 ; linha < tamanho ; linha++){
 			this.celulas[linha] = new Array(tamanho);
-			for(coluna = 0 ; coluna < tamanho ; coluna++){
-				this.celulas[linha][coluna] = new Celula(linha,coluna,this);
+			
+			var idLinha = "L"+linha;
+			jQuery("<tr/>",{'id':idLinha}).appendTo(tabela);
+
+			for(var coluna = 0 ; coluna < tamanho ; coluna++){
+				
+				var idCelula = "C"+linha+"X"+coluna;
+				jQuery("<td/>",{'id':idCelula,'text':idCelula}).appendTo("#"+idLinha);
+				var celulaTabela = $("#"+idCelula)[0];
+				
+				this.celulas[linha][coluna] = new Celula(linha,coluna,this,celulaTabela);
 			}
 		}
 	}
