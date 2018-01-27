@@ -13,6 +13,46 @@ class Celula{
 
 	}
 
+	setCano(tipo){
+		var cano = null;
+		console.log("entrou pelo cano");
+		if(tipo == "CanoHorizontal"){
+			cano = new CanoHorizontal(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoVertical"){
+			cano = new CanoVertical(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoEsquerdaCima"){
+			cano = new CanoEsquerdaCima(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoEsquerdaBaixo"){
+			cano = new CanoEsquerdaBaixo(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoDireitaCima"){
+			cano = new CanoDireitaCima(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoDireitaBaixo"){
+			cano = new CanoDireitaBaixo(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoDiagonalSupEsInfDi"){
+			cano = new CanoDiagonalSupEsInfDi(this,this.x+","+this.y);
+		}
+
+		if(tipo == "CanoDiagonalSupDiInfEs"){
+			cano = new CanoDiagonalSupDiInfEs(this,this.x+","+this.y);
+		}
+		this.cano = cano;
+		jQuery("<img/>",{'src':cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.celulaTabela);
+		this.cano.alocarVizinhos();
+		// console.log(this);
+	}
+
 }
 
 class Grade{
@@ -32,12 +72,16 @@ class Grade{
 			for(var coluna = 0 ; coluna < tamanho ; coluna++){
 				
 				var idCelula = "C"+linha+"X"+coluna;
-				jQuery("<td/>",{'id':idCelula,'text':idCelula}).appendTo("#"+idLinha);
+				jQuery("<td/>",{'id':idCelula}).appendTo("#"+idLinha);
 				var celulaTabela = $("#"+idCelula)[0];
 				
 				this.celulas[linha][coluna] = new Celula(linha,coluna,this,celulaTabela);
 			}
 		}
+	}
+
+	isCelulaLivre(x,y){
+		return this.celulas[x][y].cano == null;
 	}
 
 	getCelula(x,y){
@@ -54,11 +98,23 @@ class Grade{
 		this.fim = this.celulas[x][y];
 	}
 
+	setCelula(x,y,tipo){
+		this.celulas[x][y].setCano(tipo);
+	}
+
 	inicializarNos(){
-		for(linha = 0 ; linha < this.tamanho ; linha++){
-			for(coluna = 0 ; coluna < this.tamanho ; coluna++){
+		for(var linha = 0 ; linha < this.tamanho ; linha++){
+			for(var coluna = 0 ; coluna < this.tamanho ; coluna++){
 				this.celulas[linha][coluna].estado = 0;
 				this.celulas[linha][coluna].pai = null;
+			}
+		}
+	}
+
+	setListener(event,func){
+		for(var linha = 0 ; linha < this.tamanho ; linha++){
+			for(var coluna = 0 ; coluna < this.tamanho ; coluna++){
+				this.celulas[linha][coluna].celulaTabela.addEventListener(event,func);
 			}
 		}
 	}
@@ -89,21 +145,22 @@ class Grade{
 }
 
 class Cano{
+	calcularPossiveisVizinhos(){
+		return null;
+	}
 	constructor(celula,id){
 		this.celula = celula;
 		this.srcImagem = null;
 		this.id = id;
 		this.possiveisVizinhos = null;
-		calcularPossiveisVizinhos();
+		this.calcularPossiveisVizinhos();
 	}
 
-	calcularPossiveisVizinhos(){
-		return null;
-	}
 
 	alocarVizinhos(){
+		console.log(this);
 		for(let possivelVizinho of this.possiveisVizinhos){
-			if(possivelVizinho.cano.possiveisVizinhos.has(this)){
+			if(possivelVizinho.cano != null && possivelVizinho.cano.possiveisVizinhos.has(this)){
 				this.visinhos.add(possivelVizinho);
 				possivelVizinho.visinhos.add(this);
 			}
@@ -113,7 +170,7 @@ class Cano{
 class CanoQuebrado extends Cano{
 	constructor(celula,id){
 		super(celula,id);
-		this.this.srcImagem = "static/images/quebrado.png";
+		this.srcImagem = "static/images/quebrado.png";
 	}
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
@@ -121,9 +178,6 @@ class CanoQuebrado extends Cano{
 }
 
 class PontoEspecial extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-	}
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -148,62 +202,65 @@ class PontoEspecial extends Cano{
 		if((x-1) >= 0 && (y+1) <= tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y+1));	
 	}
+	constructor(celula,id){
+		super(celula,id);
+	}
 }
 class CanoOrigem extends PontoEspecial{
 	constructor(celula,id){
 		super(celula,id);
-		this.this.srcImagem = "static/images/origem.png";
+		this.srcImagem = "static/images/origem.png";
 	}
 }
 class CanoFim extends PontoEspecial{
 	constructor(celula,id){
 		super(celula,id);
-		this.this.srcImagem = "static/images/fim.png";
+		this.srcImagem = "static/images/fim.png";
 	}
 }
 class CanoHorizontal extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/horizontal.png";
-	}
+	
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
 		var y = this.celula.y;
 		var tamanho= this.celula.grade.tamanho;
 		var grade = this.celula.grade;
-		
-		if((x - 1) >= 0)
-			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
-		if((x + 1) <= tamanho)
-			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
+
+		if((y - 1) >= 0)
+			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
+		if((y + 1) <= tamanho)
+			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
+	}
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/horizontal.png";
 	}
 }
 
 class CanoVertical extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/vertical.png";
-	}
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
 		var y = this.celula.y;
 		var tamanho= this.celula.grade.tamanho;
 		var grade = this.celula.grade;
-
-		if((y - 1) >= 0)
-			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
-		if((y + 1) <= tamanho)
-			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
+		
+		if((x - 1) >= 0)
+			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
+		if((x + 1) <= tamanho)
+			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
+	}
+	
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/vertical.png";
 	}
 }
 
 class CanoEsquerdaCima extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/esquerdaCima.png";
-	}
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -215,33 +272,15 @@ class CanoEsquerdaCima extends Cano{
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
 		if((y - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
+	}
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/esquerdaCima.png";
 	}
 }
 
 class CanoEsquerdaBaixo extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/esquerdaBaixo.png";
-	}
-	calcularPossiveisVizinhos(){
-		this.possiveisVizinhos = new Set();
-		var x = this.celula.x;
-		var y = this.celula.y;
-		var tamanho= this.celula.grade.tamanho;
-		var grade = this.celula.grade;
-		
-		if((x - 1) >= 0)
-			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
-		if((y + 1) <= tamanho)
-			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
-	}
-}
-
-class CanoDireitaCima extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/direitaCima.png";
-	}
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -254,13 +293,36 @@ class CanoDireitaCima extends Cano{
 		if((y - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
 	}
+	
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/esquerdaBaixo.png";
+	}
+}
+
+class CanoDireitaCima extends Cano{
+	
+	calcularPossiveisVizinhos(){
+		this.possiveisVizinhos = new Set();
+		var x = this.celula.x;
+		var y = this.celula.y;
+		var tamanho= this.celula.grade.tamanho;
+		var grade = this.celula.grade;
+		
+		if((x - 1) >= 0)
+			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
+		if((y + 1) <= tamanho)
+			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
+	}
+	
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/direitaCima.png";
+	}
 }
 
 class CanoDireitaBaixo extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/direitaBaixo.png";
-	}
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -273,13 +335,14 @@ class CanoDireitaBaixo extends Cano{
 		if((y + 1) <= tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
 	}
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/direitaBaixo.png";
+	}
 }
 
 class CanoDiagonalSupEsInfDi extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/diagonalSupesInfdir.png";
-	}
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -292,13 +355,14 @@ class CanoDiagonalSupEsInfDi extends Cano{
 		if((x+1) <= tamanho && (y+1) <= tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y+1));		
 	}
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/diagonalSupesInfdir.png";
+	}
 }
 
 class CanoDiagonalSupDiInfEs extends Cano{
-	constructor(celula,id){
-		super(celula,id);
-		this.this.srcImagem = "static/images/diagonalSupdirInfes.png";
-	}
+	
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();
 		var x = this.celula.x;
@@ -310,6 +374,10 @@ class CanoDiagonalSupDiInfEs extends Cano{
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y-1));		
 		if((x-1) >= 0 && (y+1) <= tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y+1));		
+	}
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/diagonalSupdirInfes.png";
 	}
 }
 

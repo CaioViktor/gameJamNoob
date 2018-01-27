@@ -17,7 +17,20 @@ table, th, td {
     margin:0px 0px 0px 0px;
     padding:0px 0px 0px 0px;
 }
-
+td{
+	width: 42px;
+	height: 42px;
+	margin:0px 0px 0px 0px;
+    padding:0px 0px 0px 0px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    /*background-attachment: fixed;*/
+    background-size: 42px 42px;
+}
+.canoTabuleiro{
+	width: 42px;
+	height: 42px;
+}
 .tipoCano{
 	height: 64px;
 	width: 64px;
