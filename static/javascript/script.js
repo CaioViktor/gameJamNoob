@@ -7,7 +7,7 @@ class Celula{
 		this.visinhos = new Set();
 
 		//variáveis do algoritmo de busca
-		this.estado = 0;//0 - não visitado;1 - visitado
+		this.estado = 0;//0 - não visitado;1 - na fila; 2- visitado
 		this.pai = null;
 
 	}
@@ -42,7 +42,39 @@ class Grade{
 		this.celulas[x][y].cano = new CanoFim(celulas[x][y],"fim1");
 		this.fim = this.celulas[x][y];
 	}
-	
+
+	inicializarNos(){
+		for(linha = 0 ; linha < this.tamanho ; linha++){
+			for(coluna = 0 ; coluna < this.tamanho ; coluna++){
+				this.celulas[linha][coluna].estado = 0;
+				this.celulas[linha][coluna].pai = null;
+			}
+		}
+	}
+
+	acharCaminho(partida,chegada){
+		inicializarNos();
+		var proximos = new Array();
+
+
+		var atual = partida;
+		while(true){
+			atual.estado = 2;
+			if(atual == chegada)
+				return atual;
+			for(let visinho of atual.visinhos){
+				if(visinho.estado  == 0){
+					visinho.estado = 1;
+					visinho.pai = atual;
+					proximos.push(visinho);
+				}
+			}
+			if(proximos.length <= 0)
+				return null;
+			atual = proximos.shift();
+		}
+
+	}
 }
 
 class Cano{
