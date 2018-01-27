@@ -1,3 +1,4 @@
+let TAMANHO = 10;
 var grade = null;
 var canoSelecionado = false;
 var tipoSelecionado = null;
@@ -33,6 +34,9 @@ function init(){
 			}
 		});
 	});
-	grade = new Grade(10,$("#gradeGame")[0]);
+	grade = new Grade(TAMANHO,$("#gradeGame")[0]);
 	grade.setListener("click",inserirCano);
+
+	
+
 }
