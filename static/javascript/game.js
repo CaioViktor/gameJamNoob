@@ -22,9 +22,15 @@ var inserirCano = function(e){
 function init(){
 	$(".tipoCano").toArray().forEach(function(e){
 		e.addEventListener("click",function(event){
-			e.style.borderColor = "red";
-			tipoSelecionado = e.id;
-			canoSelecionado = true;
+			if(!canoSelecionado){
+				e.style.borderColor = "red";
+				tipoSelecionado = e.id;
+				canoSelecionado = true;
+			}else{
+				$("#"+tipoSelecionado)[0].style.borderColor = "black";
+				tipoSelecionado = null;
+				canoSelecionado = false;
+			}
 		});
 	});
 	grade = new Grade(10,$("#gradeGame")[0]);
