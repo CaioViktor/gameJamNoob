@@ -7,9 +7,18 @@ var pontuacao = 0;
 
 var timer = null;
 var nivel = 1;
+var alturaInicial = 315;
+var marginInicial = 35;
 
 var gameOver = function(){
 	alert("Game Over!");
+}
+function ajustarNivelAgua(nivel){
+	var altura = Math.floor((nivel/100) * alturaInicial);
+	var margin = marginInicial + alturaInicial - altura;
+	var agua = $("#agua")[0];
+	agua.style.height = altura+"px";
+	agua.style.marginTop = margin+"px";
 }
 
 function atualizarPontuacao(){
@@ -115,6 +124,7 @@ function initGame(nivel){
 	if(nivel > 25)
 		quebrados = 50 + nivel - 25 ;
 	grade = new Grade(TAMANHO,$("#gradeGame")[0]);
+	$("#cidade")[0].innerHTML = nivel;
 	grade.setListener("click",inserirCano);
 	$("#botaoProximo")[0].style.display = "none";
 	$("#botaoResolver")[0].disabled=false;
@@ -125,7 +135,7 @@ function initGame(nivel){
 	grade.setQuebrados(Math.floor(quebrados/2));
 	grade.setLadroes(Math.floor(quebrados/2));
 	atualizarPontuacao();
-	timer = new Timer(5,30,$("#tempo")[0],$("#percent")[0],gameOver);
+	timer = new Timer(5,30,$("#tempo")[0],$("#percent")[0],gameOver,ajustarNivelAgua);
 	timer.start();
 
 }

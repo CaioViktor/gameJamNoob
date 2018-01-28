@@ -477,12 +477,13 @@ class Timer{
 		return Math.floor(100* (this.time)/this.timeInicio);
 	}
 
-	constructor(minutos,segundos,tempo,percent,gameOver){
+	constructor(minutos,segundos,tempo,percent,gameOver,atualizarAgua){
 		this.time = (60 * minutos) + (segundos);
 		this.timeInicio = this.time;
 		this.timerCont = null;
 		this.tempo = tempo;
 		this.percent = percent;
+		this.atualizarAgua = atualizarAgua;
 		this.gameOver = gameOver;
 		this.tempo.innerHTML = this.toString();
 		this.percent.innerHTML = this.getPercente()+"%";
@@ -494,6 +495,7 @@ class Timer{
 			timer.time = timer.time - 1;
 			timer.tempo.innerHTML = timer.toString();
 			timer.percent.innerHTML = timer.getPercente()+"%";
+			timer.atualizarAgua(timer.getPercente());
 			if(timer.time <= 0 ){
 				timer.gameOver();
 				timer.stop();

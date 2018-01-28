@@ -12,9 +12,11 @@
 		<script type="text/javascript" src="static/javascript/game.js"></script>
 	</head>
 	<body onload="init();">
-		<center>
-			<table id="gradeGame"></table>
-			<div id="divPontuacao"><div id="pontos"></div></div>
+		<div id="menuJogo">
+			<div id="divPontuacao">
+				<img src="static/images/dinheiro.png">
+				$<a id="pontos"></a>
+			</div>
 			<div id="canos">
 				<div id="CanoHorizontal" class="tipoCano">
 					<div class="contador">$10</div>
@@ -41,15 +43,28 @@
 					<div class="contador">$1000</div>
 				</div>
 			</div>
+			<img id="incanador" src="static/images/encanador.png">
+		</div>
+		<center>
+			<table id="gradeGame"></table>
+			
+			
 			<div id="controle"> 
 				<button id="botaoResetar" onclick="resetar();">Resetar</button> 
 				<button id="botaoResolver" onclick="resolver();">Resolver</button>
 				<button id="botaoProximo" onclick="proximo();">Próxima Fase</button>
 			</div>
 		</center>
-		<div id="timerPanel">
-			<div id="tempo"></div>
-			<div id="percent"> </div>
+		<div id="mostradores">
+			<img id="caixa" src="static/images/fimGrande.png">
+			<div id="agua">
+				<div id="percent"> </div>
+			</div>
+			<div id="timerPanel">
+				<div id="tempo"></div>
+				<div>Cidade:<a id="cidade"></a></div>
+			</div>	
 		</div>
+		
 	</body>
 </html>
