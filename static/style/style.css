@@ -2,24 +2,21 @@
 	background-image: url("../images/background.png");
 	/*min-width: 50%;
 	min-height: 50%;*/
-	max-width: 90%;
-	max-height: 90% !important; 
+	/*max-width: 90%;
+	max-height: 90% !important; */
 	background-repeat: no-repeat;
     background-position: left top;
     /*background-attachment: fixed;*/
-    background-size: contain;
+    background-size: 100% 100%;
 }
-#gradeGame td{
-	width: 42px;
-	height: 42px;
-}
+
 #gradeGame td:hover{
 	border: 1px solid yellow;
 }
-table, th, td {
+tr,td{
     border: 1px solid black;
-    margin:0px 0px 0px 0px;
-    padding:0px 0px 0px 0px;
+    margin:0px 0px 0px 0px !important;
+    padding:0px 0px 0px 0px !important;
 }
 #botaoProximo{
 	display: none;
@@ -142,4 +139,23 @@ td{
 	margin-right: 25px;
 	text-align: center;
 	width: 250px;
+}
+#botaoResetar{
+	display: none;
+}
+
+
+
+
+
+#inicio{
+	background-image: url("../images/telainicial.png");
+	background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+#play{
+	background-color: rgba(255,255,255,0.5);
 }

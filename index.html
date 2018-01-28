@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>
-			
+			Dry Quest
 		</title>
 		<link rel="stylesheet" type="text/css"  href="static/style/style.css"/>
 		<script type="text/javascript" src="static/javascript/jQuery.js"></script>
@@ -11,60 +11,15 @@
 		<script type="text/javascript" href="static/javascript/konva.min.js"></script>
 		<script type="text/javascript" src="static/javascript/game.js"></script>
 	</head>
-	<body onload="init();">
-		<div id="menuJogo">
-			<div id="divPontuacao">
-				<img src="static/images/dinheiro.png">
-				$<a id="pontos"></a>
-			</div>
-			<div id="canos">
-				<div id="CanoHorizontal" class="tipoCano">
-					<div class="contador">$10</div>
-				</div>
-				<div id="CanoVertical" class="tipoCano">
-					<div class="contador">$10</div>
-				</div>
-				<div id="CanoEsquerdaCima" class="tipoCano">
-					<div class="contador">$30</div>
-				</div>
-				<div id="CanoEsquerdaBaixo" class="tipoCano">
-					<div class="contador">$30</div>
-				</div>
-				<div id="CanoDireitaCima" class="tipoCano">
-					<div class="contador">$30</div>
-				</div>
-				<div id="CanoDireitaBaixo" class="tipoCano">
-					<div class="contador">$30</div>
-				</div>
-				<div id="consertar" class="tipoCano">
-					<div class="contador">$500</div>
-				</div>
-				<div id="prender" class="tipoCano">
-					<div class="contador">$1000</div>
-				</div>
-			</div>
-			<img id="incanador" src="static/images/encanador.png">
-		</div>
+	<body id="inicio">
 		<center>
-			<table id="gradeGame"></table>
 			
-			
-			<div id="controle"> 
-				<button id="botaoResetar" onclick="resetar();">Resetar</button> 
-				<button id="botaoResolver" onclick="resolver();">Resolver</button>
-				<button id="botaoProximo" onclick="proximo();">Próxima Fase</button>
+			<a id="play" href="game.html">Jogar</a>
+			<div id="divTutorial">
+				<img src="static/images/" class = "tutorial">
+				<img src="static/images/" class = "tutorial">
+				<img src="static/images/" class = "tutorial">
 			</div>
 		</center>
-		<div id="mostradores">
-			<img id="caixa" src="static/images/fimGrande.png">
-			<div id="agua">
-				<div id="percent"> </div>
-			</div>
-			<div id="timerPanel">
-				<div id="tempo"></div>
-				<div>Cidade:<a id="cidade"></a></div>
-			</div>	
-		</div>
-		
 	</body>
 </html>

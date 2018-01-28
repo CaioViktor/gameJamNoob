@@ -13,6 +13,7 @@ var marginInicial = 35;
 var gameOver = function(){
 	alert("Game Over!");
 }
+
 function ajustarNivelAgua(nivel){
 	var altura = Math.floor((nivel/100) * alturaInicial);
 	var margin = marginInicial + alturaInicial - altura;
