@@ -11,7 +11,7 @@ var alturaInicial = 315;
 var marginInicial = 35;
 
 var gameOver = function(){
-	alert("Game Over!");
+	alert("Game Over!\nPontuação Final:"+pontuacao+"\nCidade:"+nivel);
 }
 
 function ajustarNivelAgua(nivel){
