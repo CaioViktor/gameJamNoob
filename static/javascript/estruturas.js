@@ -382,3 +382,48 @@ class CanoDiagonalSupDiInfEs extends Cano{
 
 
 
+
+
+
+class Timer{
+	stop(){
+		clearTimeout(this.timerCont);
+	}
+
+	toString(){
+		var minutos = Math.floor(this.time / 60);
+		var segundos = this.time % 60;
+		return minutos+":"+segundos;
+	}
+
+	getPercente(){
+		return Math.floor(100* (this.time)/this.timeInicio);
+	}
+
+	constructor(minutos,segundos,tempo,percent,gameOver){
+		this.time = (60 * minutos) + (segundos);
+		this.timeInicio = this.time;
+		this.timerCont = null;
+		this.tempo = tempo;
+		this.percent = percent;
+		this.gameOver = gameOver;
+		this.tempo.innerHTML = this.toString();
+		this.percent.innerHTML = this.getPercente()+"%";
+	}
+	start(){
+		var timer = this;
+		this.timerCont = setInterval(function(){
+			
+			timer.time = timer.time - 1;
+			timer.tempo.innerHTML = timer.toString();
+			timer.percent.innerHTML = timer.getPercente()+"%";
+			if(timer.time <= 0 ){
+				timer.gameOver();
+				timer.stop();
+			}
+		}, 1000);
+	}
+
+	
+
+}

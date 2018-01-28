@@ -5,6 +5,12 @@ var tipoSelecionado = null;
 var jogoAtivo = true;
 var pontuacao = 0;
 
+var timer = null;
+
+var gameOver = function(){
+	alert("Game Over!");
+}
+
 var inserirCano = function(e){
 	// console.log(e);
 	if(!canoSelecionado)
@@ -37,18 +43,31 @@ function resolver(){
 		celula.celulaTabela.style.borderColor = "green";
 		celula = celula.pai;
 	}
+	$("#botaoProximo")[0].disabled = false;
+	$("#botaoResetar")[0].disabled = true;
 }
 function resetar(){
 	grade = null;
 	canoSelecionado = false;
 	tipoSelecionado = null;
 	jogoAtivo = true;
+	$("#gradeGame tr").remove();
+	initGame(1);
 }
 
 function proximo(){
 
 }
 
+function initGame(nivel){
+	grade = new Grade(TAMANHO,$("#gradeGame")[0]);
+	grade.setListener("click",inserirCano);
+
+	grade.setOrigem(0,0);
+	grade.setFim(TAMANHO-1,TAMANHO-1);
+
+
+}
 function init(){
 	$(".tipoCano").toArray().forEach(function(e){
 		e.addEventListener("click",function(event){
@@ -65,10 +84,7 @@ function init(){
 			}
 		});
 	});
-	grade = new Grade(TAMANHO,$("#gradeGame")[0]);
-	grade.setListener("click",inserirCano);
-
-	grade.setOrigem(0,0);
-	grade.setFim(TAMANHO-1,TAMANHO-1);
-
+	timer = new Timer(0,30,$("#tempo")[0],$("#percent")[0],gameOver);
+	initGame(1);
+	timer.start();
 }

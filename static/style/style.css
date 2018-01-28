@@ -1,9 +1,13 @@
 #gradeGame{
-	background-image: url("../images/background.jpg");
+	background-image: url("../images/background.png");
 	/*min-width: 50%;
 	min-height: 50%;*/
 	max-width: 90%;
 	max-height: 90% !important; 
+	background-repeat: no-repeat;
+    background-position: left top;
+    /*background-attachment: fixed;*/
+    background-size: contain;
 }
 #gradeGame td{
 	width: 42px;
