@@ -87,13 +87,15 @@ class Grade{
 	}
 
 	setOrigem(x,y){
-		this.celulas[x][y].cano = new CanoOrigem(celulas[x][y],"origem1");
+		this.celulas[x][y].cano = new CanoOrigem(this.celulas[x][y],"origem1");
 		this.origem = this.celulas[x][y];
+		jQuery("<img/>",{'src':this.origem.cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.origem.celulaTabela);
 	}
 
 	setFim(x,y){
-		this.celulas[x][y].cano = new CanoFim(celulas[x][y],"fim1");
+		this.celulas[x][y].cano = new CanoFim(this.celulas[x][y],"fim1");
 		this.fim = this.celulas[x][y];
+		jQuery("<img/>",{'src':this.fim.cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.fim.celulaTabela);
 	}
 
 	setCelula(x,y,tipo){
@@ -118,7 +120,7 @@ class Grade{
 	}
 
 	acharCaminho(partida,chegada){
-		inicializarNos();
+		this.inicializarNos();
 		var proximos = new Array();
 
 
@@ -184,19 +186,19 @@ class PontoEspecial extends Cano{
 		
 		if((x - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
-		if((x + 1) <= tamanho)
+		if((x + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
 		if((y - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
-		if((y + 1) <= tamanho)
+		if((y + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
 		if((x-1) >= 0 && (y-1) >= 0 )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y-1));		
-		if((x+1) <= tamanho && (y+1) <= tamanho )
+		if((x+1) < tamanho && (y+1) < tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y+1));
-		if( (x+1) <= tamanho && (y-1) >= 0 )
+		if( (x+1) < tamanho && (y-1) >= 0 )
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y-1));		
-		if((x-1) >= 0 && (y+1) <= tamanho )
+		if((x-1) >= 0 && (y+1) < tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y+1));	
 	}
 	constructor(celula,id){
@@ -227,7 +229,7 @@ class CanoHorizontal extends Cano{
 
 		if((y - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
-		if((y + 1) <= tamanho)
+		if((y + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
 	}
 	constructor(celula,id){
@@ -246,7 +248,7 @@ class CanoVertical extends Cano{
 		
 		if((x - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
-		if((x + 1) <= tamanho)
+		if((x + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
 	}
 	
@@ -285,7 +287,7 @@ class CanoEsquerdaBaixo extends Cano{
 		var tamanho= this.celula.grade.tamanho;
 		var grade = this.celula.grade;
 		
-		if((x + 1) <= tamanho)
+		if((x + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
 		if((y - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x,y-1));
@@ -308,7 +310,7 @@ class CanoDireitaCima extends Cano{
 		
 		if((x - 1) >= 0)
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y));
-		if((y + 1) <= tamanho)
+		if((y + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
 	}
 	
@@ -327,9 +329,9 @@ class CanoDireitaBaixo extends Cano{
 		var tamanho= this.celula.grade.tamanho;
 		var grade = this.celula.grade;
 		
-		if((x + 1) <= tamanho)
+		if((x + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y));
-		if((y + 1) <= tamanho)
+		if((y + 1) < tamanho)
 			this.possiveisVizinhos.add(grade.getCelula(x,y+1));
 	}
 	constructor(celula,id){
@@ -349,7 +351,7 @@ class CanoDiagonalSupEsInfDi extends Cano{
 		
 		if((x-1) >= 0 && (y-1) >= 0 )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y-1));		
-		if((x+1) <= tamanho && (y+1) <= tamanho )
+		if((x+1) < tamanho && (y+1) < tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y+1));		
 	}
 	constructor(celula,id){
@@ -367,9 +369,9 @@ class CanoDiagonalSupDiInfEs extends Cano{
 		var tamanho= this.celula.grade.tamanho;
 		var grade = this.celula.grade;
 		
-		if( (x+1) <= tamanho && (y-1) >= 0 )
+		if( (x+1) < tamanho && (y-1) >= 0 )
 			this.possiveisVizinhos.add(grade.getCelula(x+1,y-1));		
-		if((x-1) >= 0 && (y+1) <= tamanho )
+		if((x-1) >= 0 && (y+1) < tamanho )
 			this.possiveisVizinhos.add(grade.getCelula(x-1,y+1));		
 	}
 	constructor(celula,id){

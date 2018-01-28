@@ -17,6 +17,9 @@ table, th, td {
     margin:0px 0px 0px 0px;
     padding:0px 0px 0px 0px;
 }
+#botaoProximo{
+	display: none;
+}
 td{
 	width: 42px;
 	height: 42px;
