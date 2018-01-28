@@ -6,11 +6,14 @@ var jogoAtivo = true;
 var pontuacao = 0;
 
 var timer = null;
+var nivel = 1;
 
 var gameOver = function(){
 	alert("Game Over!");
 }
-
+function atualizarPontuacao(){
+	$("#pontos")[0].innerHTML=pontuacao;
+}
 var inserirCano = function(e){
 	// console.log(e);
 	if(!canoSelecionado)
@@ -30,12 +33,13 @@ var inserirCano = function(e){
 	}
 }
 function resolver(){
+	timer.stop();
 	$("#botaoResolver")[0].disabled=true;
 	jogoAtivo = false;
 	var caminho = grade.acharCaminho(grade.origem,grade.fim);
 	
 	if(caminho == null){//Caminho errado
-		alert("Game Over");
+		return gameOver();
 	}
 	var celula = caminho;
 
@@ -43,8 +47,12 @@ function resolver(){
 		celula.celulaTabela.style.borderColor = "green";
 		celula = celula.pai;
 	}
-	$("#botaoProximo")[0].disabled = false;
+	$("#botaoProximo")[0].style.display = "block";
 	$("#botaoResetar")[0].disabled = true;
+	var saldoFase = nivel * 100;
+	pontuacao = pontuacao + (saldoFase + Math.floor(saldoFase*timer.getPercente()/100));
+	alert("Parabéns cidade abastecida!!!\nPontuação: "+saldoFase+"\nBônus de tempo:"+ Math.floor(saldoFase*timer.getPercente()/100))
+
 }
 function resetar(){
 	grade = null;
@@ -56,7 +64,12 @@ function resetar(){
 }
 
 function proximo(){
-
+	grade = null;
+	canoSelecionado = false;
+	tipoSelecionado = null;
+	jogoAtivo = true;
+	$("#gradeGame tr").remove();
+	initGame(nivel+1);
 }
 
 function initGame(nivel){
@@ -65,7 +78,9 @@ function initGame(nivel){
 
 	grade.setOrigem(0,0);
 	grade.setFim(TAMANHO-1,TAMANHO-1);
-
+	atualizarPontuacao();
+	timer = new Timer(5,30,$("#tempo")[0],$("#percent")[0],gameOver);
+	timer.start();
 
 }
 function init(){
@@ -84,7 +99,8 @@ function init(){
 			}
 		});
 	});
-	timer = new Timer(0,30,$("#tempo")[0],$("#percent")[0],gameOver);
-	initGame(1);
-	timer.start();
+	
+	pontuacao = 1000;
+	nivel = 1;
+	initGame(nivel);
 }
