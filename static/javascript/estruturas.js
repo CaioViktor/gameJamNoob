@@ -46,6 +46,9 @@ class Celula{
 		if(tipo == "CanoDiagonalSupDiInfEs"){
 			cano = new CanoDiagonalSupDiInfEs(this,this.x+","+this.y);
 		}
+		if(tipo == "quebrado"){
+			cano = new CanoQuebrado(this,this.x+","+this.y);	
+		}
 		this.cano = cano;
 		jQuery("<img/>",{'src':cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.celulaTabela);
 		this.cano.alocarVizinhos();
@@ -54,13 +57,26 @@ class Celula{
 }
 
 class Grade{
+	getLivre(){
+		if(this.livres.length <= 0)
+			return null;
+		if(this.livres.length == 1)
+			return this.livres.shift();
+		var pos = Math.floor(Math.random() * this.livres.length);
+		var aux = this.livres[0];
+		this.livres[0] = this.livres[pos];
+		this.livres[pos] = aux;
+		console.log(this.livres);
+		return this.livres.shift();
+	}
 	constructor(tamanho,tabela){
 		this.tamanho = tamanho;
 		this.origem = null;
 		this.fim = null;
 		this.tabela = tabela;
 		this.celulas = new Array(tamanho);
-
+		this.livres = new Array(tamanho*tamanho);
+		var c = 0;
 		for(var linha = 0 ; linha < tamanho ; linha++){
 			this.celulas[linha] = new Array(tamanho);
 			
@@ -74,6 +90,8 @@ class Grade{
 				var celulaTabela = $("#"+idCelula)[0];
 				
 				this.celulas[linha][coluna] = new Celula(linha,coluna,this,celulaTabela);
+				this.livres[c] = this.celulas[linha][coluna];
+				c = c+1;
 			}
 		}
 	}
@@ -141,6 +159,15 @@ class Grade{
 			atual = proximos.shift();
 		}
 
+	}
+	setQuebrados(quantidade){
+		if(quantidade > this.livres.length)
+			quantidade = this.livres.length;
+		while(quantidade > 0){
+			quantidade = quantidade - 1;
+			this.getLivre().setCano("quebrado");
+
+		}
 	}
 }
 

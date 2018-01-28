@@ -73,11 +73,18 @@ function proximo(){
 }
 
 function initGame(nivel){
+	var quebrados = nivel * 2;
+	if(nivel > 25)
+		quebrados = 50 + nivel - 25 ;
 	grade = new Grade(TAMANHO,$("#gradeGame")[0]);
 	grade.setListener("click",inserirCano);
+	$("#botaoProximo")[0].style.display = "none";
+	$("#botaoResolver")[0].disabled=false;
+	$("#botaoResetar")[0].disabled = false;
 
 	grade.setOrigem(0,0);
 	grade.setFim(TAMANHO-1,TAMANHO-1);
+	grade.setQuebrados(quebrados);
 	atualizarPontuacao();
 	timer = new Timer(5,30,$("#tempo")[0],$("#percent")[0],gameOver);
 	timer.start();
