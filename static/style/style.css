@@ -155,7 +155,59 @@ td{
     background-attachment: fixed;
     background-size: 100% 100%;
 }
-
+#menu{
+	position: absolute;
+	top: 40%;
+	left:48%;
+}
 #play{
-	background-color: rgba(255,255,255,0.5);
+	background-color: #4cdfef;
+	font-size: 48px;
+	padding: 10px;
+	border-radius: 24px;
+	text-decoration: none;
+	color: black;
+	margin-bottom: 10px;
+}
+#tutorial{
+	background-color: #f9e31d;
+	font-size: 30px;
+	padding: 10px;
+	border-radius: 24px;
+	text-decoration: none;
+	color: black;
+	margin-bottom: 10px;
+}
+#sobre{
+	background-color: #202ffc;
+	font-size: 30px;
+	padding: 10px;
+	border-radius: 24px;
+	text-decoration: none;
+	color: white;
+}
+#divTutorial{
+	position: absolute;
+	left: 0%;
+	top: 0%;
+}
+.tutorialIM{
+	height: 100%;
+	width:100%;
+}
+#sobreContent{
+	background-color: white;
+	border-radius: 25px;
+	width: 50%;
+	height: 50%;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+}
+.itemMenu{
+	margin-top: 50px;
+}
+.foto{
+	width: 64px;
+	height: 64px;
 }
