@@ -39,7 +39,10 @@ function resolver(){
 	}
 }
 function resetar(){
-
+	grade = null;
+	canoSelecionado = false;
+	tipoSelecionado = null;
+	jogoAtivo = true;
 }
 
 function proximo(){
