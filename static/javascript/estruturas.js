@@ -49,9 +49,20 @@ class Celula{
 		if(tipo == "quebrado"){
 			cano = new CanoQuebrado(this,this.x+","+this.y);	
 		}
+
+		if(tipo == "ladrao"){
+			cano = new Ladrao(this,this.x+","+this.y);	
+		}
+		
 		this.cano = cano;
-		jQuery("<img/>",{'src':cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.celulaTabela);
+		jQuery("<img/>",{'id':'I'+this.celulaTabela.id,'src':cano.srcImagem,'class':'canoTabuleiro'}).appendTo(this.celulaTabela);
 		this.cano.alocarVizinhos();
+	}
+
+	liberar(){
+		this.cano = null;
+		this.grade.livres.push(this);
+		$("#"+this.celulaTabela.id+" img").remove();
 	}
 
 }
@@ -66,7 +77,6 @@ class Grade{
 		var aux = this.livres[0];
 		this.livres[0] = this.livres[pos];
 		this.livres[pos] = aux;
-		console.log(this.livres);
 		return this.livres.shift();
 	}
 	constructor(tamanho,tabela){
@@ -94,6 +104,8 @@ class Grade{
 				c = c+1;
 			}
 		}
+		this.livres.shift();
+		this.livres.pop();
 	}
 
 	isCelulaLivre(x,y){
@@ -169,6 +181,26 @@ class Grade{
 
 		}
 	}
+
+	setLadroes(quantidade){
+		if(quantidade > this.livres.length)
+			quantidade = this.livres.length;
+		while(quantidade > 0){
+			quantidade = quantidade - 1;
+			this.getLivre().setCano("ladrao");
+
+		}
+	}
+	tentarLiberar(x,y,tipo){
+		if(!(this.celulas[x][y].cano instanceof Problema))
+			return false;
+		if((tipo == "consertar" && this.celulas[x][y].cano instanceof CanoQuebrado) || (tipo == "prender" && this.celulas[x][y].cano instanceof Ladrao)){
+			this.celulas[x][y].liberar();
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 class Cano{
@@ -193,10 +225,28 @@ class Cano{
 		}
 	}
 }
-class CanoQuebrado extends Cano{
+class Problema extends Cano{
+	constructor(celula,id){
+		super(celula,id);
+	}
+	remover(){
+		this.celula.cano = null;
+		this.celula.grade.livres.push(this.celula.grade);
+	}
+}
+class CanoQuebrado extends Problema{
 	constructor(celula,id){
 		super(celula,id);
 		this.srcImagem = "static/images/quebrado.png";
+	}
+	calcularPossiveisVizinhos(){
+		this.possiveisVizinhos = new Set();
+	}
+}
+class Ladrao extends Problema{
+	constructor(celula,id){
+		super(celula,id);
+		this.srcImagem = "static/images/ladrao.png";
 	}
 	calcularPossiveisVizinhos(){
 		this.possiveisVizinhos = new Set();

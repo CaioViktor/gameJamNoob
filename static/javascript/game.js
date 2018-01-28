@@ -11,20 +11,55 @@ var nivel = 1;
 var gameOver = function(){
 	alert("Game Over!");
 }
+
 function atualizarPontuacao(){
 	$("#pontos")[0].innerHTML=pontuacao;
 }
+
+function getPreco(tipo){
+	if(tipo == "CanoHorizontal" || tipo == "CanoVertical"){
+			return 10;
+		}
+
+
+		if(tipo == "CanoEsquerdaCima" ||tipo == "CanoEsquerdaBaixo" || tipo == "CanoDireitaCima" || tipo == "CanoDireitaBaixo"){
+			return 30;
+		}
+
+
+		if(tipo == "consertar"){
+			return 500;
+		}
+
+		if(tipo == "prender"){
+			return 1000;	
+		}
+}
+
 var inserirCano = function(e){
-	// console.log(e);
 	if(!canoSelecionado)
 		return false;
 
-	var linhaColuna = e.target.id.replace("C","").split("X");
+	
+	var linhaColuna = e.target.id.replace("I","").replace("C","").split("X");
 	if(grade.isCelulaLivre(linhaColuna[0],linhaColuna[1])){
 		grade.setCelula(linhaColuna[0],linhaColuna[1],tipoSelecionado);
 
+		
+		pontuacao = pontuacao - getPreco(tipoSelecionado);
+		atualizarPontuacao();
 
-
+		canoSelecionado = false;
+		tipoSelecionado = null;
+		$(".tipoCano").toArray().forEach(function(e){
+			e.style.borderColor = "black";
+		});
+	}else{
+		var liberou = grade.tentarLiberar(linhaColuna[0],linhaColuna[1],tipoSelecionado);
+		if(liberou){
+			pontuacao = pontuacao - getPreco(tipoSelecionado);
+			atualizarPontuacao();
+		}
 		canoSelecionado = false;
 		tipoSelecionado = null;
 		$(".tipoCano").toArray().forEach(function(e){
@@ -49,7 +84,7 @@ function resolver(){
 	}
 	$("#botaoProximo")[0].style.display = "block";
 	$("#botaoResetar")[0].disabled = true;
-	var saldoFase = nivel * 100;
+	var saldoFase = nivel * 50;
 	pontuacao = pontuacao + (saldoFase + Math.floor(saldoFase*timer.getPercente()/100));
 	alert("Parabéns cidade abastecida!!!\nPontuação: "+saldoFase+"\nBônus de tempo:"+ Math.floor(saldoFase*timer.getPercente()/100))
 
@@ -69,7 +104,10 @@ function proximo(){
 	tipoSelecionado = null;
 	jogoAtivo = true;
 	$("#gradeGame tr").remove();
-	initGame(nivel+1);
+	if(nivel < 73)
+		initGame(nivel+1);
+	else
+		gameOver();
 }
 
 function initGame(nivel){
@@ -84,7 +122,8 @@ function initGame(nivel){
 
 	grade.setOrigem(0,0);
 	grade.setFim(TAMANHO-1,TAMANHO-1);
-	grade.setQuebrados(quebrados);
+	grade.setQuebrados(Math.floor(quebrados/2));
+	grade.setLadroes(Math.floor(quebrados/2));
 	atualizarPontuacao();
 	timer = new Timer(5,30,$("#tempo")[0],$("#percent")[0],gameOver);
 	timer.start();
@@ -95,6 +134,10 @@ function init(){
 		e.addEventListener("click",function(event){
 			if(!jogoAtivo)
 				return;
+			if(getPreco(e.id) > pontuacao){
+				alert("Não possui dinheiro suficiente");
+				return;
+			}
 			if(!canoSelecionado){
 				e.style.borderColor = "red";
 				tipoSelecionado = e.id;
