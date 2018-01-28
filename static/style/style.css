@@ -43,6 +43,7 @@ td{
 	margin-left: 20px;
 }
 #incanador{
+	z-index:9000;
 	position: absolute;
 	left: 70px;
 	top: 0px;
