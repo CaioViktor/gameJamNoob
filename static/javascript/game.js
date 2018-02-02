@@ -10,6 +10,24 @@ var nivel = 1;
 var alturaInicial = 315;
 var marginInicial = 35;
 
+$(document).keypress(function(event){
+	if(event.which == 113)	
+		$("#CanoHorizontal")[0].click();
+	if(event.which == 119)	
+		$("#CanoVertical")[0].click();
+	if(event.which == 101)	
+		$("#CanoEsquerdaCima")[0].click();
+	if(event.which == 114)	
+		$("#CanoEsquerdaBaixo")[0].click();
+	if(event.which == 116)	
+		$("#CanoDireitaCima")[0].click();
+	if(event.which == 121)	
+		$("#CanoDireitaBaixo")[0].click();
+	if(event.which == 117)	
+		$("#consertar")[0].click();
+	if(event.which == 105)	
+		$("#prender")[0].click();
+});
 var gameOver = function(){
 	alert("Game Over!\nPontuação Final:"+pontuacao+"\nCidade:"+nivel);
 }
@@ -94,7 +112,7 @@ function resolver(){
 	}
 	$("#botaoProximo")[0].style.display = "block";
 	$("#botaoResetar")[0].disabled = true;
-	var saldoFase = nivel * 50;
+	var saldoFase = nivel * 100;
 	pontuacao = pontuacao + (saldoFase + Math.floor(saldoFase*timer.getPercente()/100));
 	alert("Parabéns cidade abastecida!!!\nPontuação: "+saldoFase+"\nBônus de tempo:"+ Math.floor(saldoFase*timer.getPercente()/100))
 
@@ -161,7 +179,7 @@ function init(){
 		});
 	});
 	
-	pontuacao = 1000;
+	pontuacao = 3000;
 	nivel = 1;
 	initGame(nivel);
 }
