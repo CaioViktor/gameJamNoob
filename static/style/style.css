@@ -79,6 +79,12 @@ td{
 .contador{
 	background: rgba(0, 0, 0, 0.7);
 	color: white;
+}
+.atalho{
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	text-align: center;
+	font-size: 10px;
 
 }
 
