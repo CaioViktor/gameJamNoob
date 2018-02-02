@@ -132,8 +132,10 @@ function proximo(){
 	tipoSelecionado = null;
 	jogoAtivo = true;
 	$("#gradeGame tr").remove();
-	if(nivel < 73)
-		initGame(nivel+1);
+	if(nivel < 73){
+		nivel = nivel+1;
+		initGame(nivel);
+	}
 	else
 		gameOver();
 }
